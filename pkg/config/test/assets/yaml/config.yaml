@@ -1,0 +1,4 @@
+auth:
+  apikey: my-token
+  password: my-password
+  username: my-username
