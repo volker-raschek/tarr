@@ -123,7 +123,7 @@ steps:
   image: git.cryptic.systems/volker.raschek/git:1.3.1
 
 - name: build
-  image: docker.io/plugins/docker:20.18.3
+  image: docker.io/plugins/docker:20.18.4
   settings:
     auto_tag: false
     dockerfile: Dockerfile
@@ -190,7 +190,7 @@ steps:
   image: git.cryptic.systems/volker.raschek/git:1.3.1
 
 - name: build
-  image: docker.io/plugins/docker:20.18.3
+  image: docker.io/plugins/docker:20.18.4
   settings:
     auto_tag: false
     dockerfile: Dockerfile
@@ -257,7 +257,7 @@ steps:
   image: git.cryptic.systems/volker.raschek/git:1.3.1
 
 - name: build
-  image: docker.io/plugins/docker:20.18.3
+  image: docker.io/plugins/docker:20.18.4
   settings:
     auto_tag: false
     dockerfile: Dockerfile
@@ -322,7 +322,7 @@ steps:
   image: git.cryptic.systems/volker.raschek/git:1.3.1
 
 - name: build
-  image: docker.io/plugins/docker:20.18.3
+  image: docker.io/plugins/docker:20.18.4
   settings:
     auto_tag: false
     dockerfile: Dockerfile
@@ -456,7 +456,7 @@ steps:
       from_secret: container_image_registry_user
     DEST_CRED_PASSWORD:
       from_secret: container_image_registry_password
-  image: quay.io/skopeo/stable:v1.16.0
+  image: quay.io/skopeo/stable:v1.16.1
 
 - name: email-notification
   environment:
@@ -506,7 +506,7 @@ steps:
   image: git.cryptic.systems/volker.raschek/git:1.3.1
 
 - name: build
-  image: docker.io/plugins/docker:20.18.3
+  image: docker.io/plugins/docker:20.18.4
   settings:
     auto_tag: true
     auto_tag_suffix: amd64
@@ -566,7 +566,7 @@ steps:
   image: git.cryptic.systems/volker.raschek/git:1.3.1
 
 - name: build
-  image: docker.io/plugins/docker:20.18.3
+  image: docker.io/plugins/docker:20.18.4
   settings:
     auto_tag: true
     auto_tag_suffix: arm64-v8
@@ -696,7 +696,7 @@ steps:
       from_secret: container_image_registry_user
     DEST_CRED_PASSWORD:
       from_secret: container_image_registry_password
-  image: quay.io/skopeo/stable:v1.16.0
+  image: quay.io/skopeo/stable:v1.16.1
 
 - name: email-notification
   environment:
