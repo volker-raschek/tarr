@@ -1,4 +1,4 @@
-FROM docker.io/library/golang:1.23.3-alpine3.19 AS build
+FROM docker.io/library/golang:1.23.4-alpine3.19 AS build
 
 RUN apk add git make
 
@@ -15,6 +15,6 @@ RUN make -C cmd/healarr install \
       PREFIX=/usr \
       VERSION=${VERSION}
 
-FROM docker.io/library/alpine:3.20
+FROM docker.io/library/alpine:3.21
 
 COPY --from=build /cache /
