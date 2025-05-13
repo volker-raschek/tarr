@@ -1,13 +1,12 @@
 # tarr
 
-[![Build Status](https://drone.cryptic.systems/api/badges/volker.raschek/tarr/status.svg)](https://drone.cryptic.systems/volker.raschek/tarr)
 [![Docker Pulls](https://img.shields.io/docker/pulls/volkerraschek/tarr)](https://hub.docker.com/r/volkerraschek/tarr)
 
 The tarr project contains small binaries / tools for interacting with *arr applications. The tools are helpful in a
 kubernetes environment to retrofit missing functions of the \*arr applications.
 
-> [!NOTE]
-> Instead of compiling the tarr applications by yourself, use the tarr container image instead. More described [below](#container-image).
+> [!NOTE] Instead of compiling the tarr applications by yourself, use the tarr container image instead. More described
+> [below](#container-image).
 
 ## autharr
 
@@ -63,9 +62,9 @@ Healthy
 
 ## container-image
 
-The container image `docker.io/volkerraschek/tarr` contains all tarr applications. The command below is an example to
-start `autharr` of the container image `volkerraschek/tarr` via docker. `autharr` is watching for changes of the API
-token. Any change will be written to the standard output.
+The container image `git.cryptic.systems/volker.raschek/tarr` contains all tarr applications. The command below is an
+example to start `autharr` of the container image `volker.raschek/tarr` via docker. `autharr` is watching for changes of
+the API token. Any change will be written to the standard output.
 
 > [!NOTE]
 > Adapt the volume mount, if you want to write the token to file on the host system.
@@ -74,6 +73,6 @@ token. Any change will be written to the standard output.
 $ docker run \
   --rm \
   --volume /etc/bazarr:/etc/bazarr:ro \
-    docker.io/volkerraschek/tarr:latest \
+    git.cryptic.systems/volker.raschek/tarr:latest \
       autharr --watch /etc/bazarr/config.yaml
 ```
