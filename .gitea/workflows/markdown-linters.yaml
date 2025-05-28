@@ -11,7 +11,7 @@ on:
 jobs:
   markdown-lint:
     container:
-      image: git.cryptic.systems/volker.raschek/markdownlint:0.44.0
+      image: git.cryptic.systems/volker.raschek/markdownlint:0.45.0
     runs-on:
     - ubuntu-latest
     steps:
