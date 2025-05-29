@@ -10,11 +10,10 @@ on:
 
 jobs:
   markdown-lint:
-    container:
-      image: git.cryptic.systems/volker.raschek/markdownlint:0.45.0
     runs-on:
     - ubuntu-latest
     steps:
     - uses: actions/checkout@v4.2.2
-    - name: Lint Markdown files
-      run: markdownlint --config .markdownlint.yaml .
+    - uses: DavidAnson/markdownlint-cli2-action@v19.1.0
+      with:
+        globs: '**/*.md'
