@@ -1,0 +1,24 @@
+name: Golang Tests
+
+on:
+  pull_request:
+    types: [ "opened", "reopened", "synchronize" ]
+  push:
+    branches: [ '**' ]
+    tags-ignore: [ '**' ]
+
+jobs:
+  unittest:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        go: [ stable ]
+        os: [ ubuntu-latest-amd64, ubuntu-latest-arm64 ]
+    steps:
+    - uses: actions/checkout@v4.2.2
+    - uses: actions/setup-go@v5.5.0
+      with:
+        go-version: ${{ matrix.go }}
+    - env:
+        GOPROXY: ${{ vars.GOPROXY }}
+      run: make test/unit
