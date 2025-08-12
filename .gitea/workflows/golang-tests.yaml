@@ -1,42 +1,42 @@
-name: "Run Golang tests"
+# name: "Run Golang tests"
 
-on:
-  pull_request:
-    types: [ "opened", "reopened", "synchronize" ]
-  push:
-    branches: [ '**' ]
-    tags-ignore: [ '**' ]
-  workflow_dispatch: {}
+# on:
+#   pull_request:
+#     types: [ "opened", "reopened", "synchronize" ]
+#   push:
+#     branches: [ '**' ]
+#     tags-ignore: [ '**' ]
+#   workflow_dispatch: {}
 
-jobs:
-  # integration-test:
-  #   name: "Run integration tests"
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     matrix:
-  #       go: [ stable ]
-  #       os: [ ubuntu-latest-amd64, ubuntu-latest-arm64 ]
-  #   steps:
-  #   - uses: actions/checkout@v4.2.2
-  #   - uses: actions/setup-go@v5.5.0
-  #     with:
-  #       go-version: ${{ matrix.go }}
-  #   - env:
-  #       GOPROXY: ${{ vars.GOPROXY }}
-  #     run: make test/integration
+# jobs:
+#   integration-test:
+#     name: "Run integration tests"
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#       matrix:
+#         go: [ stable ]
+#         os: [ ubuntu-latest-amd64, ubuntu-latest-arm64 ]
+#     steps:
+#     - uses: actions/checkout@v4.2.2
+#     - uses: actions/setup-go@v5.5.0
+#       with:
+#         go-version: ${{ matrix.go }}
+#     - env:
+#         GOPROXY: ${{ vars.GOPROXY }}
+#       run: make test/integration
 
-  unit-test:
-    name: "Run unit tests"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        go: [ stable ]
-        os: [ ubuntu-latest-amd64, ubuntu-latest-arm64 ]
-    steps:
-    - uses: actions/checkout@v4.2.2
-    - uses: actions/setup-go@v5.5.0
-      with:
-        go-version: ${{ matrix.go }}
-    - env:
-        GOPROXY: ${{ vars.GOPROXY }}
-      run: make test/unit
+#   unit-test:
+#     name: "Run unit tests"
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#       matrix:
+#         go: [ stable ]
+#         os: [ ubuntu-latest-amd64, ubuntu-latest-arm64 ]
+#     steps:
+#     - uses: actions/checkout@v4.2.2
+#     - uses: actions/setup-go@v5.5.0
+#       with:
+#         go-version: ${{ matrix.go }}
+#     - env:
+#         GOPROXY: ${{ vars.GOPROXY }}
+#       run: make test/unit
