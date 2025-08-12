@@ -46,11 +46,12 @@ type YAMLConfig struct {
 // Read reads the config struct from a file. The decoding format will be determined by the file extension like
 // `xml` or `yaml`.
 func ReadConfig(name string) (*domain.Config, error) {
+	// #nosec G304
 	f, err := os.Open(name)
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	switch {
 	case strings.HasSuffix(name, "xml"):
@@ -58,7 +59,7 @@ func ReadConfig(name string) (*domain.Config, error) {
 	case strings.HasSuffix(name, "yml") || strings.HasSuffix(name, "yaml"):
 		return readYAMLConfig(f)
 	default:
-		return nil, fmt.Errorf("Unsupported file extension")
+		return nil, fmt.Errorf("unsupported file extension")
 	}
 }
 
@@ -97,8 +98,8 @@ func readYAMLConfig(r io.Reader) (*domain.Config, error) {
 }
 
 func WatchConfig(ctx context.Context, name string) (<-chan *domain.Config, <-chan error) {
-	configChannel := make(chan *domain.Config, 0)
-	errorChannel := make(chan error, 0)
+	configChannel := make(chan *domain.Config)
+	errorChannel := make(chan error)
 
 	go func() {
 		wait := time.Second * 3
@@ -110,14 +111,18 @@ func WatchConfig(ctx context.Context, name string) (<-chan *domain.Config, <-cha
 			errorChannel <- err
 			return
 		}
-		watcher.Add(name)
+		err = watcher.Add(name)
+		if err != nil {
+			errorChannel <- err
+			return
+		}
 
 		for {
 			select {
 			case <-ctx.Done():
 				close(configChannel)
 				close(errorChannel)
-				break
+				return
 			case event, open := <-watcher.Events:
 				if !open {
 					errorChannel <- fmt.Errorf("FSWatcher closed channel: %w", err)
@@ -145,11 +150,12 @@ func WatchConfig(ctx context.Context, name string) (<-chan *domain.Config, <-cha
 // WriteConfig writes the config struct into the file. The encoding format will be determined by the file extension like
 // `xml` or `yaml`.
 func WriteConfig(name string, config *domain.Config) error {
+	// #nosec G304
 	f, err := os.Create(name)
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	switch {
 	case strings.HasSuffix(name, "xml"):
@@ -157,13 +163,13 @@ func WriteConfig(name string, config *domain.Config) error {
 	case strings.HasSuffix(name, "yml") || strings.HasSuffix(name, "yaml"):
 		return writeYAMLConfig(f, config)
 	default:
-		return fmt.Errorf("Unsupported file extension")
+		return fmt.Errorf("unsupported file extension")
 	}
 }
 
 func writeXMLConfig(w io.Writer, config *domain.Config) error {
 	xmlEncoder := xml.NewEncoder(w)
-	defer xmlEncoder.Close()
+	defer func() { _ = xmlEncoder.Close() }()
 
 	xmlConfig := &XMLConfig{
 		APIToken: config.API.Token,
@@ -180,7 +186,7 @@ func writeXMLConfig(w io.Writer, config *domain.Config) error {
 
 func writeYAMLConfig(w io.Writer, config *domain.Config) error {
 	yamlEncoder := yaml.NewEncoder(w)
-	defer yamlEncoder.Close()
+	defer func() { _ = yamlEncoder.Close() }()
 
 	yamlConfig := &YAMLConfig{
 		Auth: YAMLConfigAuth{

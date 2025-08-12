@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"git.cryptic.systems/volker.raschek/tarr/pkg/config"
@@ -95,7 +96,10 @@ healarr sonarr https://sonarr.example.com:8443 --api-token my-token`,
 	rootCmd.PersistentFlags().Bool("insecure", false, "Trust insecure TLS certificates")
 	rootCmd.PersistentFlags().Duration("timeout", time.Minute, "Timeout")
 
-	rootCmd.Execute()
+	err := rootCmd.Execute()
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func runBazarrE(cmd *cobra.Command, args []string) error {
@@ -152,7 +156,7 @@ func runE(cmd *cobra.Command, args []string, queryKey string) error {
 
 	switch {
 	case len(apiToken) <= 0 && len(configPath) <= 0:
-		return fmt.Errorf("At least --api-token oder --config must be defined")
+		return fmt.Errorf("at least --api-token oder --config must be defined")
 	case len(apiToken) > 0 && len(configPath) <= 0:
 		err = health.NewReadinessProbe(args[0]).
 			QueryAdd(queryKey, apiToken).
@@ -175,7 +179,7 @@ func runE(cmd *cobra.Command, args []string, queryKey string) error {
 			return err
 		}
 	default:
-		return fmt.Errorf("Neither --api-token nor --config can be used at the same time.")
+		return fmt.Errorf("neither --api-token nor --config can be used at the same time")
 	}
 
 	return nil

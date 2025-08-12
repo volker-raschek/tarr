@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"time"
@@ -26,7 +27,9 @@ autharr /etc/lidarr/config.xml`,
 	}
 	rootCmd.Flags().Bool("watch", false, "Listens for changes to the configuration and writes the token continuously to the output")
 
-	rootCmd.Execute()
+	if err := rootCmd.Execute(); err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func runE(cmd *cobra.Command, args []string) error {
@@ -84,10 +87,16 @@ func runWatch(cmd *cobra.Command, args []string) error {
 		select {
 		case <-cmd.Context().Done():
 			return nil
-		case err := <-errorChannel:
-			logrus.WithError(err).Errorln("Received from config watcher")
+		case err, open := <-errorChannel:
+			if !open {
+				return fmt.Errorf("error channel has been closed")
+			}
+			logrus.WithError(err).Errorln("received from config watcher")
 		case <-timer.C:
-			writeConfig(cachedConfig, dest)
+			err = writeConfig(cachedConfig, dest)
+			if err != nil {
+				logrus.WithError(err).Errorln("failed to write config")
+			}
 		case config := <-configChannel:
 			cachedConfig = config
 			timer.Reset(waitFor)
@@ -105,18 +114,23 @@ func writeConfig(config *domain.Config, dest string) error {
 	case len(dest) > 0:
 		dirname := filepath.Dir(dest)
 
+		// #nosec G301
 		err := os.MkdirAll(dirname, 0755)
 		if err != nil {
 			return err
 		}
 
+		// #nosec G304
 		f, err := os.Create(dest)
 		if err != nil {
 			return err
 		}
 		defer func() { _ = f.Close() }()
 
-		f.WriteString(config.API.Token)
+		_, err = f.WriteString(config.API.Token)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

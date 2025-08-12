@@ -24,6 +24,7 @@ func TestReadWriteConfig_XML(t *testing.T) {
 	t.Cleanup(func() { _ = os.RemoveAll(tmpDir) })
 
 	expectedXMLConfigName := filepath.Join(tmpDir, "expected_config.xml")
+	// #nosec G304
 	f, err := os.Create(expectedXMLConfigName)
 	require.NoError(err)
 
@@ -38,6 +39,7 @@ func TestReadWriteConfig_XML(t *testing.T) {
 	err = config.WriteConfig(actualXMLConfigName, actualConfig)
 	require.NoError(err)
 
+	// #nosec G304
 	b, err := os.ReadFile(actualXMLConfigName)
 	require.NoError(err)
 	require.Equal(expectedXMLConfig, string(b))
@@ -51,6 +53,7 @@ func TestReadWriteConfig_YAML(t *testing.T) {
 	t.Cleanup(func() { _ = os.RemoveAll(tmpDir) })
 
 	expectedYAMLConfigName := filepath.Join(tmpDir, "expected_config.yaml")
+	// #nosec G304
 	f, err := os.Create(expectedYAMLConfigName)
 	require.NoError(err)
 
@@ -65,6 +68,7 @@ func TestReadWriteConfig_YAML(t *testing.T) {
 	err = config.WriteConfig(actualYAMLConfigName, actualConfig)
 	require.NoError(err)
 
+	// #nosec G304
 	b, err := os.ReadFile(actualYAMLConfigName)
 	require.NoError(err)
 	require.Equal(expectedYAMLConfig, string(b))

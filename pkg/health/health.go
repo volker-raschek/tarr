@@ -9,8 +9,8 @@ import (
 	"net/url"
 )
 
-var ErrNoAPIToken error = errors.New("No API token defined")
-var ErrNoURL error = errors.New("No API token defined")
+var ErrNoAPIToken error = errors.New("no API token defined")
+var ErrNoURL error = errors.New("no API token defined")
 
 type ReadinessProbe struct {
 	additionalQueryValues url.Values
@@ -40,6 +40,7 @@ func (rp *ReadinessProbe) Run(ctx context.Context) error {
 	httpClient := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
+				// #nosec G402
 				InsecureSkipVerify: rp.insecure,
 			},
 		},
@@ -64,7 +65,7 @@ func (rp *ReadinessProbe) Run(ctx context.Context) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("Received unexpected HTTP status code %v", resp.StatusCode)
+		return fmt.Errorf("received unexpected HTTP status code %v", resp.StatusCode)
 	}
 
 	return nil
