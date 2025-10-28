@@ -40,3 +40,17 @@
 #     - env:
 #         GOPROXY: ${{ vars.GOPROXY }}
 #       run: make test/unit
+#     - id: coverage
+#       name: Check coverage
+#       run: |
+#         coverage="$(make test/coverage | grep total | awk '{ print substr($3, 1, length($3)-1); }')"
+#         echo "total_coverage=$coverage" >> $GITHUB_OUTPUT
+#         echo "Total coverage: ${coverage}%"
+#     - name: Fail if coverage is to low
+#       run: |
+#         total_coverage=${{ steps.coverage.outputs.total_coverage }}
+#
+#         if (( ${total_coverage%.*} < 50 )); then
+#           echo "ERROR: Coverage (${total_coverage}%) is below the threshold (50%)." 1>&2
+#           exit 1
+#         fi
