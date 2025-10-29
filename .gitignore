@@ -1,3 +1,4 @@
 dist
 cmd/autharr/autharr
 cmd/healarr/healarr
+coverage*
