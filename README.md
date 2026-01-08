@@ -5,7 +5,8 @@
 The tarr project contains small binaries / tools for interacting with *arr applications. The tools are helpful in a
 kubernetes environment to retrofit missing functions of the \*arr applications.
 
-> [!NOTE] Instead of compiling the tarr applications by yourself, use the tarr container image instead. More described
+> [!NOTE] 
+> Instead of compiling the tarr applications by yourself, use the tarr container image instead. More described
 > [below](#container-image).
 
 ## autharr
